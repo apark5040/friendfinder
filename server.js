@@ -7,26 +7,16 @@ var path = require("path");
 var app = express();
 
 var htmlRoutes = require("./app/routing/htmlRoutes.js");
+var apiRoutes = require("./app/routing/apiRoutes.js");
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 
-var PORT = 3000;
-
-// app.get("/survey", function (req, res) {
-
-//     res.sendFile(path.join(__dirname, "./app/public", "survey.html"));
-
-// });
-
-// app.get("/", function (req, res) {
-
-//     res.sendFile(path.join(__dirname, "./app/public", "home.html"));
-
-// });
+var PORT = 3000; 
 
 htmlRoutes(app);
+apiRoutes(app);
 
 //LISTENER
 app.listen(PORT, function () {
@@ -35,7 +25,5 @@ app.listen(PORT, function () {
     
 });
 
-//'npm run watch'
-//Make sure 'watch' is in package.json 
 
 

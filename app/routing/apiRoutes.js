@@ -1,8 +1,21 @@
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+module.exports = function(app){
 
-app.get("/api/friends", function(req, res){
+    var friendsArr = require("../data/friends.js");
 
-    return res.json("#");
+    app.get("/api/friends", function(req, res){
 
-});
+        return res.json(friendsArr.friends);
+    
+    });
+
+    app.post("/api/friends", function(req, res){
+
+        var newFriend = req.body;
+
+        friendsArr.friends.push(newFriend);
+
+        res.json(friendsArr.friends);
+
+    });
+
+}
