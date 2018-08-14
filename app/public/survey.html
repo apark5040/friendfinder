@@ -198,16 +198,20 @@
 
     <script type="text/javascript">
 
+        //function to find the smallest number in an array. Uses the array as an input
         Array.min = function (array) {
             return Math.min.apply(Math, array);
         };
 
+        //empty object variable used to add user survey info into API as JSON later.
         var newPerson;
 
+        //button on click event handler when submitting survey
         $("#submitBtn").on("click", function () {
 
             event.preventDefault();
 
+            //validation for name and photo URL
             if ($("#name").val() === "" || $("#photo").val() === "") {
 
                 $("#saveInfo").attr("style", "display: none;");
@@ -216,16 +220,19 @@
                
                 
             }
+            //Will start once name and photo is in survey
             else {
 
                 $("#saveInfo").attr("style", "");
 
+                //Grabs current URL 
                 var currentURL = window.location.origin;
 
+                //Variable to grab the matched friend object later
                 var chosenFriend;
 
-                var friendDiff = [];
 
+                //Add survey values into an object
                 newPerson = {
                     name: $("#name").val(),
                     photo: $("#photo").val(),
@@ -246,14 +253,16 @@
 
                 console.log(newPerson);
 
-
+                //ajax call to get all available friends to compare
                 $.ajax({
                     url: currentURL + "/api/friends",
                     method: "GET"
                 }).then(function (tableData) {
 
+                    //Array to hold total differences. Array length is based on number of friends in API
                     var listFriend = [];
 
+                    //For loop to go through each friend in API and add a total difference compared to user scores. 
                     for (var i = 0; i < tableData.length; i++) {
                         var totalDiff = 0;
                         for (var j = 0; j < tableData[i].scores.length; j++) {
@@ -261,20 +270,39 @@
                             totalDiff += Math.abs(tableData[i].scores[j] - newPerson.scores[j]);
                         }
 
+                        //adds each total difference
                         listFriend.push(totalDiff);
 
                     }
 
+                    //variable to grab smallest number. If there are more than one same small number, it will pick the first one it finds. 
                     var friend = Array.min(listFriend);
                     console.log(listFriend);
 
                     console.log(friend);
 
+                    //Picks the friend based on the index of where the smallest number was. 
                     chosenFriend = tableData[listFriend.indexOf(friend)];
 
+                    //populates modal with matched friend info.
                     $("#headMessage").text("Here is your perfect match:");
                     $("#friendName").text(chosenFriend.name);
                     $("#friendImage").attr("src", chosenFriend.photo);
+
+                    // Clear the form when submitting
+                    $("#q1").val("1");
+                    $("#q2").val("1");
+                    $("#q3").val("1");
+                    $("#q4").val("1");
+                    $("#q5").val("1");
+                    $("#q6").val("1");
+                    $("#q7").val("1");
+                    $("#q8").val("1");
+                    $("#q9").val("1");
+                    $("#q10").val("1");
+
+                    $("#name").val("");
+                    $("#photo").val("");
 
                 });
 
@@ -283,7 +311,7 @@
 
         });
 
-
+        //event handler for saving user info into Friend Finder
         $("#saveInfo").on("click", function () {
 
             //the POST send the scores as a string. It is parsed as a int, but it's still string. 
