@@ -43,5 +43,5 @@ Once you have inputted all the information, Friend Finder will go through each f
 
 ### Additional Information
 
-Since there is only one sample 'friend' in Friend Finder, you will always be matched with that sample. You can add more samples by going to `/data/friends.js` and add the objects there. 
+Since there are only 2 sample friends in Friend Finder, you will always be matched with one of those samples. You can add more samples by going to `/data/friends.js` and add the objects there. 
 
