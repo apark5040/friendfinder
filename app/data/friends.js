@@ -1,21 +1,23 @@
 module.exports = {
 
     //friends array with sample object
-    friends: [{
-        "name": "Ahmed",
-        "photo": "https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/6/005/064/1bd/3435aa3.jpg",
-        "scores": [
+    friends: [
+        {
+        name: "Ahmed",
+        photo: "https://images.pexels.com/photos/356378/pexels-photo-356378.jpeg?auto=compress&cs=tinysrgb&h=350",
+        scores: [
             5,
-            1,
             4,
-            4,
-            5,
-            1,
+            3,
             2,
+            1,
             5,
             4,
+            3,
+            2,
             1
         ]
 
-    }]
+    }
+]
 }
