@@ -21,6 +21,11 @@
 <body>
 
     <div class=container>
+        <a href="/">Go back to home page</a>
+
+        <br>
+        <br>
+
         <h2>Survey questions</h2>
         <hr>
         <h3>About you</h3>
@@ -166,13 +171,13 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Friend Finder</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <h1>Here is your perfect match:</h1>
+                        <h1 id="headMessage"></h1>
 
                         <h3 id="friendName"></h3>
 
@@ -203,62 +208,78 @@
 
             event.preventDefault();
 
-            var currentURL = window.location.origin;
+            if ($("#name").val() === "" || $("#photo").val() === "") {
 
-            var chosenFriend;
+                $("#saveInfo").attr("style", "display: none;");
 
-            var friendDiff = [];
+               return $("#friendName").text("Please add a name and photo");
+               
+                
+            }
+            else {
 
-            newPerson = {
-                name: $("#name").val(),
-                photo: $("#photo").val(),
-                scores: [
-                    parseInt($("#q1").val()),
-                    parseInt($("#q2").val()),
-                    parseInt($("#q3").val()),
-                    parseInt($("#q4").val()),
-                    parseInt($("#q5").val()),
-                    parseInt($("#q6").val()),
-                    parseInt($("#q7").val()),
-                    parseInt($("#q8").val()),
-                    parseInt($("#q9").val()),
-                    parseInt($("#q10").val())
+                $("#saveInfo").attr("style", "");
 
-                ]
-            };
+                var currentURL = window.location.origin;
 
-            console.log(newPerson);
+                var chosenFriend;
+
+                var friendDiff = [];
+
+                newPerson = {
+                    name: $("#name").val(),
+                    photo: $("#photo").val(),
+                    scores: [
+                        parseInt($("#q1").val()),
+                        parseInt($("#q2").val()),
+                        parseInt($("#q3").val()),
+                        parseInt($("#q4").val()),
+                        parseInt($("#q5").val()),
+                        parseInt($("#q6").val()),
+                        parseInt($("#q7").val()),
+                        parseInt($("#q8").val()),
+                        parseInt($("#q9").val()),
+                        parseInt($("#q10").val())
+
+                    ]
+                };
+
+                console.log(newPerson);
 
 
-            $.ajax({
-                url: currentURL + "/api/friends",
-                method: "GET"
-            }).then(function (tableData) {
+                $.ajax({
+                    url: currentURL + "/api/friends",
+                    method: "GET"
+                }).then(function (tableData) {
 
-                var listFriend = [];
+                    var listFriend = [];
 
-                for (var i = 0; i < tableData.length; i++) {
-                    var totalDiff = 0;
-                    for (var j = 0; j < tableData[i].scores.length; j++) {
-                        
-                        totalDiff += Math.abs(tableData[i].scores[j] - newPerson.scores[j]);
+                    for (var i = 0; i < tableData.length; i++) {
+                        var totalDiff = 0;
+                        for (var j = 0; j < tableData[i].scores.length; j++) {
+
+                            totalDiff += Math.abs(tableData[i].scores[j] - newPerson.scores[j]);
+                        }
+
+                        listFriend.push(totalDiff);
+
                     }
 
-                    listFriend.push(totalDiff);
-                    
-                }
+                    var friend = Array.min(listFriend);
+                    console.log(listFriend);
 
-                var friend = Array.min(listFriend);
-                console.log(listFriend);
+                    console.log(friend);
 
-                console.log(friend);
+                    chosenFriend = tableData[listFriend.indexOf(friend)];
 
-                chosenFriend = tableData[listFriend.indexOf(friend)];
+                    $("#headMessage").text("Here is your perfect match:");
+                    $("#friendName").text(chosenFriend.name);
+                    $("#friendImage").attr("src", chosenFriend.photo);
 
-                $("#friendName").text(chosenFriend.name);
-                $("#friendImage").attr("src", chosenFriend.photo);
+                });
 
-            });
+            }
+
 
         });
 
@@ -272,16 +293,19 @@
                     console.log(data);
 
                     // Clear the form when submitting
-                    $("#q1").val("");
-                    $("#q2").val("");
-                    $("#q3").val("");
-                    $("#q4").val("");
-                    $("#q5").val("");
-                    $("#q6").val("");
-                    $("#q7").val("");
-                    $("#q8").val("");
-                    $("#q9").val("");
-                    $("#q10").val("");
+                    $("#q1").val("1");
+                    $("#q2").val("1");
+                    $("#q3").val("1");
+                    $("#q4").val("1");
+                    $("#q5").val("1");
+                    $("#q6").val("1");
+                    $("#q7").val("1");
+                    $("#q8").val("1");
+                    $("#q9").val("1");
+                    $("#q10").val("1");
+
+                    $("#name").val("");
+                    $("#photo").val("");
 
                 });
 
