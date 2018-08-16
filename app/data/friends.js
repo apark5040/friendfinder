@@ -18,7 +18,9 @@ module.exports = {
                 1
             ]
 
-        }, {
+        }
+        , 
+        {
             name: "Jacob",
             photo: "https://image.shutterstock.com/display_pic_with_logo/64681/684452320/stock-photo-british-shorthair-cat-isolated-on-white-smiling-expression-happy-684452320.jpg",
             scores: [

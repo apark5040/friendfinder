@@ -19,8 +19,9 @@ app.use(bodyParser.json());
 var PORT = process.env.PORT || 3000; 
 
 //exporting html routes and api routes from other .js files.
-htmlRoutes(app);
 apiRoutes(app);
+htmlRoutes(app);
+
 
 //LISTENER
 app.listen(PORT, function () {
